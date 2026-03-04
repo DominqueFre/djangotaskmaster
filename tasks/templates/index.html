@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +30,32 @@
 
         <div class="row justify-content-center mt-4">
             <div class="col-12 col-lg-10">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">Add Task</h2>
+                        <form method="post" action="{% url 'index' %}">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-12 col-md-5">
+                                    {{ form.title|as_crispy_field }}
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    {{ form.due_date|as_crispy_field }}
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    {{ form.category|as_crispy_field }}
+                                </div>
+                                <div class="col-12 col-md-1 d-grid align-items-end">
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                            </div>
+                            {% for error in form.non_field_errors %}
+                                <div class="text-danger small mt-2">{{ error }}</div>
+                            {% endfor %}
+                        </form>
+                    </div>
+                </div>
+
                 <h2 class="h4 mb-3">Pending / Outstanding</h2>
                 {% if pending_tasks %}
                     <div class="table-responsive mb-4">
